@@ -48,7 +48,9 @@ module Rack
 
         # @private
         def open!
-          @app.headers.delete('Content-Length')
+          if @app.headers['Content-Length'] && @app.headers['Content-Length'].to_i <= 0
+            @app.headers.delete('Content-Length')
+          end
           open
         end
 
